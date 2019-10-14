@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  node:
+    container_name: moonbeam
+    build: ./
+    user: node
+    working_dir: ${APP_PATH_CONTAINER}
+    networks:
+      - backend
+    expose:
+      - 8181
+    ports:
+      - ${NODE_PORT}:8181
+    volumes:
+      - ./:${APP_PATH_CONTAINER}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    links:
+      - redis
+      - mongo
+    depends_on:
+      - redis
+      - mongo
+  mongo:
+    container_name: moonbeam-mongo
+    image: mongo
+    networks:
+      - backend
+    restart: always
+    volumes:
+      - mongo-volume:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_LOG_DIR: /dev/null
+  redis:
+    container_name: moonbeam-redis
+    image: redis:4.0.14-alpine
+    networks:
+      - backend
+    restart: always
+    ports:
+      - 6389:6379
+volumes:
+  mongo-volume:
+networks:
+  backend:
+    driver: bridge

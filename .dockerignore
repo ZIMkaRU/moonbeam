@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+config/*.json
+.env
+.env.example
+**/.git
+README.md
+docker-compose.yml
+Dockerfile
