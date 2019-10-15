@@ -1,6 +1,6 @@
 node_modules
 package-lock.json
-config/*.json
+init.configs.sh
 .env
 .env.example
 **/.git
